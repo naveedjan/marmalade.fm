@@ -42,16 +42,23 @@ class App extends Component {
     this.mountAudio();
   }
 
-  togglePlay = () => {
-    this.widget.togglePlay();
-  };
+  actions = {
+    togglePlay: () => {
+      this.widget.togglePlay();
+    },
 
-  playMix = (mixName) => {
-    this.setState({
-      currentMix: mixName,
-    });
+    playMix: (mixName) => {
+      const { currentMix } = this.state;
+      if (mixName === currentMix) {
+        return this.widget.togglePlay();
+      }
 
-    this.widget.load(mixName, true);
+      this.setState({
+        currentMix: mixName,
+      });
+
+      this.widget.load(mixName, true);
+    },
   };
 
   render() {
@@ -63,9 +70,12 @@ class App extends Component {
             <div className="w-50-l relative z-1">
               <Header />
 
-              <Route exact path="/">
-                <Home />
-              </Route>
+              <Route
+                exact
+                path="/"
+                component={() => <Home {...this.state} {...this.actions} />}
+              />
+
               <Route path="/archive">
                 <Archive />
               </Route>

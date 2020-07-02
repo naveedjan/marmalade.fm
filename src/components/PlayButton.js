@@ -2,8 +2,8 @@ import React from "react";
 
 const PlayButton = () => (
   <div>
-    <button className="button bg-transparent contain button-reset play-button db bg-contain bg-center pointer center"></button>
+    <button className="button bg-transparent contain button-reset play-button db bg-center pointer center"></button>
   </div>
 );
 
-export default Button;
+export default PlayButton;
