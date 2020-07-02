@@ -1,12 +1,13 @@
 /*global Mixcloud*/
 
 import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import FeaturedMix from "./FeaturedMix";
 import Header from "./Header";
 import Home from "./Home";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import mixesData from "../data/mixes";
 
 const Archive = () => <h1>Archive</h1>;
 const About = () => <h1>About</h1>;
@@ -17,8 +18,27 @@ class App extends Component {
     this.state = {
       playing: false,
       currentMix: "",
+      mixIds: mixesData,
+      mix: null,
+      mixes: [],
     };
   }
+
+  fetchMixes = async () => {
+    const { mixIds } = this.state;
+
+    mixIds.map(async (id) => {
+      try {
+        const response = await fetch(`https://api.mixcloud.com${id}`);
+        const data = await response.json();
+        this.setState((prevState, props) => ({
+          mixes: [...prevState.mixes, data],
+        }));
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
 
   mountAudio = async () => {
     this.widget = Mixcloud.PlayerWidget(this.player);
@@ -34,12 +54,12 @@ class App extends Component {
         playing: true,
       })
     );
-
-    console.log(this.widget);
   };
 
   componentDidMount() {
     this.mountAudio();
+
+    this.fetchMixes();
   }
 
   actions = {
@@ -62,11 +82,18 @@ class App extends Component {
   };
 
   render() {
+    const [firstMix = {}] = this.state.mixes;
+
     return (
       <Router>
         <div>
           <div className="flex-l justify-end">
-            <FeaturedMix />
+            <FeaturedMix
+              {...this.state}
+              {...this.actions}
+              {...firstMix}
+              id={firstMix.key}
+            />
             <div className="w-50-l relative z-1">
               <Header />
 
