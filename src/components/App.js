@@ -86,36 +86,34 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <div className="flex-l justify-end">
+          <div className='flex-l justify-end'>
             <FeaturedMix
               {...this.state}
               {...this.actions}
               {...firstMix}
               id={firstMix.key}
             />
-            <div className="w-50-l relative z-1">
+            <div className='w-50-l relative z-1'>
               <Header />
 
               <Route
                 exact
-                path="/"
+                path='/'
                 render={() => <Home {...this.state} {...this.actions} />}
               />
               <Route
-                path="/archive"
+                path='/archive'
                 render={() => <Archive {...this.state} {...this.actions} />}
               />
-              <Route path="/about">
-                <About />
-              </Route>
+              <Route path='/about' render={() => <About {...this.state} />} />
             </div>
           </div>
           <iframe
-            width="100%"
-            height="60"
-            src="https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&feed=%2FNTSRadio%2Ffloating-points-jamie-xx-18th-august-2016%2F"
-            frameBorder="0"
-            className="db fixed bottom-0 z-5"
+            width='100%'
+            height='60'
+            src='https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&feed=%2FNTSRadio%2Ffloating-points-jamie-xx-18th-august-2016%2F'
+            frameBorder='0'
+            className='db fixed bottom-0 z-5'
             ref={(player) => (this.player = player)}
           ></iframe>
         </div>

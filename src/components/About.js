@@ -12,7 +12,7 @@ const Stat = ({ statName, statNumber, statWord }) => (
   </div>
 );
 
-const About = (props) => (
+const About = ({ mixes }) => (
   <div className='ph3 ph4-1'>
     <div className='measure center lh-copy f4 ph3'>
       <p className='mt0'>
@@ -26,9 +26,23 @@ const About = (props) => (
     </div>
 
     <div className='flex pt3'>
-      <Stat statName='Feature' statNumber={11} statWord='mixes' />
-      <Stat statName='Play' statNumber={114746} statWord='times' />
-      <Stat statName='With...' statNumber={64851} statWord='seconds' />
+      <Stat statName='Feature' statNumber={mixes.length} statWord='mixes' />
+      <Stat
+        statName='Play'
+        statNumber={mixes.reduce(
+          (accum, current) => accum + current.play_count,
+          0
+        )}
+        statWord='times'
+      />
+      <Stat
+        statName='With...'
+        statNumber={mixes.reduce(
+          (accum, current) => accum + current.audio_length,
+          0
+        )}
+        statWord='seconds'
+      />
     </div>
   </div>
 );
