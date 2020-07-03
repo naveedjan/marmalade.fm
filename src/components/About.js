@@ -1,20 +1,17 @@
 import React from "react";
+import Counter from "./Counter";
 
 const Stat = ({ statName, statNumber, statWord }) => (
-  <div
-    className='w-third tc pa3 ba bw2 b--light-gray'
-    style={{ marginRight: -2 }}
-  >
-    <div className='f6 biryani ttu'>{statName}</div>
-    <div className='f5 b biryani-black ttu tracked'>
-      {statNumber} {statWord}
-    </div>
+  <div className='mb4' style={{ marginRight: -2 }}>
+    <div className='f5 black mb0 b'>{statName}</div>
+    <Counter end={statNumber} duration={3} />
+    <div className='f4 lh-1'>{statWord}</div>
   </div>
 );
 
 const About = ({ mixes }) => (
-  <div className='ph3 ph4-1'>
-    <div className='measure center lh-copy f4 ph3'>
+  <div className='measure center'>
+    <div className='lh-copy mb4'>
       <p className='mt0'>
         Marmalade.fm features the latest and greates in grooves, beats and world
         music.
@@ -25,10 +22,10 @@ const About = ({ mixes }) => (
       </p>
     </div>
 
-    <div className='flex pt3'>
-      <Stat statName='Feature' statNumber={mixes.length} statWord='mixes' />
+    <div className=''>
+      <Stat statName='Featured...' statNumber={mixes.length} statWord='mixes' />
       <Stat
-        statName='Play'
+        statName='Played...'
         statNumber={mixes.reduce(
           (accum, current) => accum + current.play_count,
           0
