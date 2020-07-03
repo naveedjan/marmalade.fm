@@ -6,11 +6,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import FeaturedMix from "./FeaturedMix";
 import Header from "./Header";
 import Home from "./Home";
+import Archive from "./Archive";
+import About from "./About";
 
 import mixesData from "../data/mixes";
-
-const Archive = () => <h1>Archive</h1>;
-const About = () => <h1>About</h1>;
 
 class App extends Component {
   constructor(props) {
@@ -100,12 +99,12 @@ class App extends Component {
               <Route
                 exact
                 path="/"
-                component={() => <Home {...this.state} {...this.actions} />}
+                render={() => <Home {...this.state} {...this.actions} />}
               />
-
-              <Route path="/archive">
-                <Archive />
-              </Route>
+              <Route
+                path="/archive"
+                render={() => <Archive {...this.state} {...this.actions} />}
+              />
               <Route path="/about">
                 <About />
               </Route>
