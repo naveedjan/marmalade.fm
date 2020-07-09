@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import differenceInDays from "date-fns/differenceInDays";
 import Stat from "./Stat";
 
@@ -22,40 +23,39 @@ const Tags = ({ tags = [] }) => (
   </div>
 );
 
-class Show extends Component {
-  render() {
-    const { match, mixes } = this.props;
+const Show = ({ mix }) => (
+  <div className='ph3 ph4-1 pad-bottom'>
+    <div className='measure center lh-copy'>
+      <Tags tags={mix.tags} />
 
-    const [mix = {}] = mixes.filter((mix) => mix.slug === match.params.slug);
+      <p>{mix.description}</p>
 
-    return (
-      <div className='ph3 ph4-1 pad-bottom'>
-        <div className='measure center lh-copy'>
-          <Tags tags={mix.tags} />
+      <Stat
+        statName='Plays'
+        statNumber={mix.play_count || 0}
+        statWord='times'
+      />
 
-          <p>{mix.description}</p>
+      <Stat
+        statName='Uploaded'
+        statNumber={differenceInDays(new Date(), mix.created_time) || 0}
+        statWord='days ago'
+      />
 
-          <Stat
-            statName='Plays'
-            statNumber={mix.play_count || 0}
-            statWord='times'
-          />
+      <Stat
+        statName='Lasting for'
+        statNumber={mix.audio_length / 60 || 0}
+        statWord='minutes'
+      />
+    </div>
+  </div>
+);
 
-          <Stat
-            statName='Uploaded'
-            statNumber={differenceInDays(new Date(), mix.created_time) || 0}
-            statWord='days ago'
-          />
+const getMix = (mixes, slug) => {
+  const [mix = {}] = mixes.filter((mix) => mix.slug === slug);
+  return mix;
+};
 
-          <Stat
-            statName='Lasting for'
-            statNumber={mix.audio_length / 60 || 0}
-            statWord='minutes'
-          />
-        </div>
-      </div>
-    );
-  }
-}
-
-export default Show;
+export default connect((state, props) => ({
+  mix: getMix(state.mixes, props.match.params.slug),
+}))(Show);

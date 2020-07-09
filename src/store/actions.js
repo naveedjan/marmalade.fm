@@ -1,5 +1,5 @@
-const setMix = (payload) => ({
-  type: "SET_MIX",
+const playMix = (payload) => ({
+  type: "PLAY_MIX",
   payload,
 });
 
@@ -9,6 +9,6 @@ const addMix = (payload) => ({
 });
 
 export default {
-  setMix,
+  playMix,
   addMix,
 };
