@@ -5,6 +5,8 @@ import Stat from "./Stat";
 
 import actions from "../store/actions";
 
+console.log(actions);
+
 const About = ({ mixes, currentMix, setMix }) => (
   <div className='ph3 ph4-1 pad-bottom'>
     <div className='measure center lh-copy'>
@@ -45,4 +47,4 @@ const About = ({ mixes, currentMix, setMix }) => (
   </div>
 );
 
-export default connect((state) => state)(About);
+export default connect((state) => state, actions)(About);
