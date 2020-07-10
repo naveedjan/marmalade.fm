@@ -36,18 +36,11 @@ class App extends Component {
   }
 
   render() {
-    const [firstMix = {}] = this.props.mixes;
-
     return (
       <Router>
         <div>
           <div className='flex-l justify-end'>
-            <FeaturedMix
-              {...this.state}
-              {...this.actions}
-              {...firstMix}
-              id={firstMix.key}
-            />
+            <FeaturedMix />
             <div className='w-50-l relative z-1'>
               <Header />
               <Route exact path='/' component={Home} />

@@ -23,28 +23,30 @@ const Tags = ({ tags = [] }) => (
   </div>
 );
 
-const Show = ({ mix }) => (
+const Show = ({
+  tags,
+  description,
+  play_count,
+  created_time,
+  audio_length,
+}) => (
   <div className='ph3 ph4-1 pad-bottom'>
     <div className='measure center lh-copy'>
-      <Tags tags={mix.tags} />
+      <Tags tags={tags} />
 
-      <p>{mix.description}</p>
+      <p>{description}</p>
 
-      <Stat
-        statName='Plays'
-        statNumber={mix.play_count || 0}
-        statWord='times'
-      />
+      <Stat statName='Plays' statNumber={play_count || 0} statWord='times' />
 
       <Stat
         statName='Uploaded'
-        statNumber={differenceInDays(new Date(), mix.created_time) || 0}
+        statNumber={differenceInDays(new Date(), created_time) || 0}
         statWord='days ago'
       />
 
       <Stat
         statName='Lasting for'
-        statNumber={mix.audio_length / 60 || 0}
+        statNumber={audio_length / 60 || 0}
         statWord='minutes'
       />
     </div>
@@ -57,5 +59,5 @@ const getMix = (mixes, slug) => {
 };
 
 export default connect((state, props) => ({
-  mix: getMix(state.mixes, props.match.params.slug),
+  ...getMix(state.mixes, props.match.params.slug),
 }))(Show);
