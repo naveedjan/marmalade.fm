@@ -6,23 +6,35 @@ import actions from "../store/actions";
 
 class Player extends Component {
   componentWillReceiveProps(nextProps) {
+    if (!nextProps.widgetReady) {
+      return;
+    }
+
     if (nextProps.currentMix !== this.props.currentMix) {
       this.widget.load(nextProps.currentMix, true);
+    } else if (!nextProps.fromMixCloud) {
+      this.widget.togglePlay();
     }
   }
 
   mountAudio = async () => {
+    const { playMix, setWidgetReady } = this.props;
+
     this.widget = Mixcloud.PlayerWidget(this.player);
     await this.widget.ready;
-    // await this.widget.play();
+
+    setWidgetReady(true);
+
     this.widget.events.pause.on(() =>
-      this.setState({
+      playMix({
         playing: false,
+        fromMixCloud: true,
       })
     );
     this.widget.events.play.on(() =>
-      this.setState({
+      playMix({
         playing: true,
+        fromMixCloud: true,
       })
     );
   };
