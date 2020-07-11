@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import differenceInDays from "date-fns/differenceInDays";
 import Stat from "./Stat";
 
+import actions from "../store/actions";
+
 const Tag = ({ name, url }) => (
   <div className='mr2 mb2 o-70'>
     <a
@@ -24,33 +26,52 @@ const Tags = ({ tags = [] }) => (
 );
 
 class Show extends Component {
-          componentDidMount() {
+  componentDidMount() {
+    const { setFeaturedMix, id } = this.props;
 
+    setFeaturedMix(id);
   }
+
+  componentWillUnmount() {
+    const { setFeaturedMix } = this.props;
+    setFeaturedMix(false);
+  }
+
   render() {
-    const { tags, description, play_count, created_time, audio_length } =
-  this.props;
-         return <div className='ph3 ph4-1 pad-bottom'>
-    <div className='measure center lh-copy'>
-      <Tags tags={tags} />
+    const {
+      tags,
+      description,
+      play_count,
+      created_time,
+      audio_length,
+    } = this.props;
+    return (
+      <div className='ph3 ph4-1 pad-bottom'>
+        <div className='measure center lh-copy'>
+          <Tags tags={tags} />
 
-      <p>{description}</p>
+          <p>{description}</p>
 
-      <Stat statName='Plays' statNumber={play_count || 0} statWord='times' />
+          <Stat
+            statName='Plays'
+            statNumber={play_count || 0}
+            statWord='times'
+          />
 
-      <Stat
-        statName='Uploaded'
-        statNumber={differenceInDays(new Date(), created_time) || 0}
-        statWord='days ago'
-      />
+          <Stat
+            statName='Uploaded'
+            statNumber={differenceInDays(new Date(), created_time) || 0}
+            statWord='days ago'
+          />
 
-      <Stat
-        statName='Lasting for'
-        statNumber={audio_length / 60 || 0}
-        statWord='minutes'
-      />
-    </div>
-  </div>
+          <Stat
+            statName='Lasting for'
+            statNumber={audio_length / 60 || 0}
+            statWord='minutes'
+          />
+        </div>
+      </div>
+    );
   }
 }
 
@@ -59,6 +80,9 @@ const getMix = (mixes, slug) => {
   return mix;
 };
 
-export default connect((state, props) => ({
-  ...getMix(state.mixes, props.match.params.slug),
-}))(Show);
+export default connect(
+  (state, props) => ({
+    ...getMix(state.mixes, props.match.params.slug),
+  }),
+  actions
+)(Show);
