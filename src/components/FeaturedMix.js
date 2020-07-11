@@ -18,6 +18,8 @@ const FeaturedMix = ({ name, pictures = {}, ...props }) => (
   </div>
 );
 
+
+
 const getMix = (mixes, slug) => {
   const [firstMix = {}] = mixes;
   return firstMix;

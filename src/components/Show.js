@@ -23,14 +23,14 @@ const Tags = ({ tags = [] }) => (
   </div>
 );
 
-const Show = ({
-  tags,
-  description,
-  play_count,
-  created_time,
-  audio_length,
-}) => (
-  <div className='ph3 ph4-1 pad-bottom'>
+class Show extends Component {
+          componentDidMount() {
+
+  }
+  render() {
+    const { tags, description, play_count, created_time, audio_length } =
+  this.props;
+         return <div className='ph3 ph4-1 pad-bottom'>
     <div className='measure center lh-copy'>
       <Tags tags={tags} />
 
@@ -51,7 +51,8 @@ const Show = ({
       />
     </div>
   </div>
-);
+  }
+}
 
 const getMix = (mixes, slug) => {
   const [mix = {}] = mixes.filter((mix) => mix.slug === slug);
